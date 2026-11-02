@@ -1,0 +1,84 @@
+CREATE TABLE CUSTOMER (
+    Customer_ID INT PRIMARY KEY,
+    Customer_Name VARCHAR(100) NOT NULL,
+    Phone VARCHAR(15),
+    Address VARCHAR(200)
+);
+
+CREATE TABLE EMPLOYEE (
+    Employee_ID INT PRIMARY KEY,
+    Employee_Name VARCHAR(100) NOT NULL,
+    Phone VARCHAR(15),
+    Salary DECIMAL(10,2)
+);
+
+CREATE TABLE MEDICINE (
+    Medicine_ID INT PRIMARY KEY,
+    Medicine_Name VARCHAR(100) NOT NULL,
+    Category VARCHAR(50),
+    Manufacturer VARCHAR(100),
+    Price DECIMAL(10,2),
+    Quantity INT,
+    Expiry_Date DATE
+);
+
+CREATE TABLE SUPPLIER (
+    Supplier_ID INT PRIMARY KEY,
+    Supplier_Name VARCHAR(100) NOT NULL,
+    Phone VARCHAR(15),
+    Address VARCHAR(200)
+);
+
+CREATE TABLE SALE (
+    Sale_ID INT PRIMARY KEY,
+    Sale_Date DATE,
+    Total_Amount DECIMAL(10,2),
+    Customer_ID INT,
+    Employee_ID INT,
+
+    FOREIGN KEY (Customer_ID)
+        REFERENCES CUSTOMER(Customer_ID),
+
+    FOREIGN KEY (Employee_ID)
+        REFERENCES EMPLOYEE(Employee_ID)
+);
+
+CREATE TABLE SALE_ITEM (
+    Sale_ID INT,
+    Medicine_ID INT,
+    Quantity INT,
+    Selling_Price DECIMAL(10,2),
+
+    PRIMARY KEY (Sale_ID, Medicine_ID),
+
+    FOREIGN KEY (Sale_ID)
+        REFERENCES SALE(Sale_ID),
+
+    FOREIGN KEY (Medicine_ID)
+        REFERENCES MEDICINE(Medicine_ID)
+);
+
+CREATE TABLE PURCHASE (
+    Purchase_ID INT PRIMARY KEY,
+    Purchase_Date DATE,
+    Total_Amount DECIMAL(10,2)
+);
+
+CREATE TABLE PURCHASE_ITEM (
+    Purchase_ID INT,
+    Medicine_ID INT,
+    Supplier_ID INT,
+    Quantity INT,
+    Price DECIMAL(10,2),
+
+    PRIMARY KEY (Purchase_ID, Medicine_ID),
+
+    FOREIGN KEY (Purchase_ID)
+        REFERENCES PURCHASE(Purchase_ID),
+
+    FOREIGN KEY (Medicine_ID)
+        REFERENCES MEDICINE(Medicine_ID),
+
+    FOREIGN KEY (Supplier_ID)
+        REFERENCES SUPPLIER(Supplier_ID)
+);
